@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Top2000</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/FitText.js/1.2.0/jquery.fittext.min.js"></script>
+		<script src="lijst.json"></script>
+		<link href='https://fonts.googleapis.com/css?family=Roboto:400,500,700,300' rel='stylesheet' type='text/css'>
+		
+		<script>
+			var url = "http://radiobox2.omroep.nl/data/radiobox2/nowonair/2.json?npo_cc_skip_wall=1";
+			lijst = lijst.data[0];
+			var currentTitle = "";
+			var currentArtist = "";
+			setInterval(function(){
+				$.getJSON(url, function(data){
+					var song = data["results"][0]["songfile"];
+					if(song.title !== currentTitle || song.artist !== currentArtist){
+						//New Song playing
+						currentTitle = song.title;
+						currentArtist = song.artist;
+
+						for(nummer in lijst){
+							if(lijst[nummer]["s"] == currentTitle){
+								console.log("Found same title");
+								if(lijst[nummer]["a"] == currentArtist){
+									console.log("Found same artist");
+									nummer++;
+									$("#number").html(nummer);
+									break;
+								}
+							}
+						}
+
+						var img = song.songversion.image[0].url;
+						$("#bg").attr("src", img);
+						$("#title").html(currentTitle);
+						$("#artist").html(currentArtist);
+
+						$("#number").fitText();
+						$("#title").fitText();
+						$("#artist").fitText();
+					}
+				});
+			}, 1000);
+		</script>
+
+		<style type="text/css">
+			html,body{
+				margin:0;
+				height:100%;
+				overflow:hidden;
+				max-height: 100vh;
+				max-width: 100vw;
+
+				font-family: 'Roboto', sans-serif;
+				/*text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;*/
+			}
+			#background{
+				min-height:100%;
+				min-width:100%;
+				height:auto;
+				width:auto;
+				position:fixed;
+				top:-50%; bottom:-50%;
+				left:-50%; right:-50%;
+				margin:auto;
+
+				z-index: -2;
+			}
+			#overlay{
+				min-height:100%;
+				min-width:100%;
+				height:auto;
+				width:auto;
+				position:fixed;
+				top:-50%; bottom:-50%;
+				left:-50%; right:-50%;
+				margin:auto;
+
+				background-color: black;
+				opacity: .2;
+			}
+			img{
+				min-height:100%;
+				min-width:100%;
+				height:auto;
+				width:auto;
+				position:fixed;
+				top:-50%; bottom:-50%;
+				left:-50%; right:-50%;
+				margin:auto;
+				filter: blur(10px);
+  				-webkit-filter: blur(10px);
+
+  				z-index: -1;
+			}
+			h1,h2,h3{
+				margin: 0px;
+				padding: 0px;
+			}
+			h1{
+				font-weight: 700;
+				color: red;
+				width: 100%;
+				text-align: center;
+			}
+			h2{
+				font-weight: 500;
+				color: white;
+				width: 100%;
+				text-align: center;
+			}
+			h3{
+				font-weight: 500;
+				color: white;
+				width: 100%;
+				text-align: center;
+			}
+		</style>
+	</head>
+	<body>
+	<div id="background">
+		<img src="" id="bg">
+		<div id="overlay"></div>
+	</div>
+	<h1 id="number">Laden...</h1>
+	<h2 id="title"></h2>
+	<i><h3 id="artist"></h3></i>
+	</body>
+</html>

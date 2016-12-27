@@ -19,7 +19,8 @@
 						//New Song playing
 						currentTitle = song.title;
 						currentArtist = song.artist;
-
+						
+						var otherimage;
 						for(nummer in lijst){
 							if(lijst[nummer]["s"] == currentTitle){
 								console.log("Found same title");
@@ -27,12 +28,16 @@
 									console.log("Found same artist");
 									nummer++;
 									$("#number").html(nummer);
+									otherimage = "http://radiobox2.omroep.nl/image/file/"+lijst[nummer]["img"]+"/title.jpg?width=400&height=400";
 									break;
 								}
 							}
 						}
-
-						var img = song.songversion.image[0].url;
+						if(song.songversion.image[0].url){
+							var img = song.songversion.image[0].url;
+						}else{
+							var img = otherimage;
+						}
 						$("#bg").attr("src", img);
 						$("#title").html(currentTitle);
 						$("#artist").html(currentArtist);

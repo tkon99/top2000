@@ -8,7 +8,14 @@
 		<link href='https://fonts.googleapis.com/css?family=Roboto:400,500,700,300' rel='stylesheet' type='text/css'>
 		
 		<script src="//cdn.jsdelivr.net/eruda/1.0.5/eruda.min.js"></script>
-		<script>eruda.init();</script>
+		<script>
+			(function () {
+			    var src = 'node_modules/eruda/eruda.min.js';
+			    if (!/eruda=true/.test(window.location) && localStorage.getItem('active-eruda') != 'true') return;
+			    document.write('<scr' + 'ipt src="' + src + '"></scr' + 'ipt>');
+			    document.write('<scr' + 'ipt>eruda.init();</scr' + 'ipt>');
+			})();
+		</script>
 		
 		<script>
 			var url = "http://radiobox2.omroep.nl/data/radiobox2/nowonair/2.json?npo_cc_skip_wall=1";

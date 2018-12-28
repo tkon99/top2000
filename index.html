@@ -42,10 +42,12 @@
 								}
 							}
 						}
-						if(song.songversion.image[0].url){
-							var img = song.songversion.image[0].url;
-						}else{
-							var img = otherimage;
+						if(song.songversion !== undefined){
+							if(song.songversion.image[0].url){
+								var img = song.songversion.image[0].url;
+							}else{
+								var img = otherimage;
+							}
 						}
 						console.log(img);
 						$("#bg").attr("src", img);
